@@ -1,0 +1,73 @@
+body {
+    background: linear-gradient(to right, rgb(230, 201, 37), pink);
+}
+
+.event-form {
+    background-color: rgb(163, 163, 163);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.card-img-top {
+    height: 350px;
+    object-fit: cover;
+}
+
+.custom-navbar .nav-link {
+    color: #ffb6c1;
+    font-size: 1.5rem;
+}
+
+.custom-brand {
+    color: #ffb6c1;
+    font-size: 3rem;
+    transition: color 0.2s ease-in-out;
+}
+
+.custom-brand:hover {
+    color: white;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.nav-link {
+    transition: color 0.2 ease-in-out;
+}
+
+.custom-search-btn {
+    color: white;
+    border-color:#ff8c94;
+    background-color: #ff8c94;
+}
+
+.custom-search-btn:hover {
+    background-color: white;
+    color: #ff8c94;
+}
+
+.form-control {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.form-select {
+    font-family: 'Open Sans', sans-serif;
+}
+
+* {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.card-text {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.custom-alert {
+    font-family: 'Open Sans', sans-serif;
+}

@@ -15,7 +15,7 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
   </head>
 
   <body>
@@ -78,7 +78,7 @@
             <!-- Card 1 -->
             <div class="col">
               <div class="card h-100">
-                <img src="img/edsheeran.jpg" class="card-img-top" />
+                <img src="{{ url_for('static', filename='img/edsheeran.jpg') }}" class="card-img-top" />
                 <div class="card-body">
                   <h5 class="card-title">Ed Sheeran Tour</h5>
                   <p class="card-text">
@@ -104,7 +104,7 @@
             <!-- Card 2 -->
             <div class="col">
               <div class="card h-100">
-                <img src="img/coldplay.jpg" class="card-img-top" />
+                <img src="{{ url_for('static', filename='img/coldplay.jpg') }}" class="card-img-top" />
                 <div class="card-body">
                   <h5 class="card-title">Coldplay Tour</h5>
                   <p class="card-text">
@@ -127,7 +127,7 @@
             <!-- Card 3 -->
             <div class="col">
               <div class="card h-100">
-                <img src="img/splendour-in-the-grass.jpg" class="card-img-top" />
+                <img src="{{ url_for('static', filename='img/splendour-in-the-grass.jpg') }}" class="card-img-top" />
                 <div class="card-body">
                   <h5 class="card-title">Splendour In The Grass</h5>
                   <p class="card-text">
@@ -155,7 +155,7 @@
             <!-- Card 4 -->
             <div class="col">
               <div class="card h-100">
-                <img src="img/dusty-hill.jpg" class="card-img-top" />
+                <img src="{{ url_for('static', filename='img/dusty-hill.jpg') }}" class="card-img-top" />
                 <div class="card-body">
                   <h5 class="card-title">Dusty Hill's Winter Music Festival 2026</h5>
                   <p class="card-text">
@@ -179,7 +179,7 @@
             <!-- Card 5 -->
             <div class="col">
               <div class="card h-100">
-                <img src="img/country-fest-queensland-2026.jpg" class="card-img-top" />
+                <img src="{{ url_for('static', filename='img/country-fest-queensland-2026.jpg') }}" class="card-img-top" />
                 <div class="card-body">
                   <h5 class="card-title">Country Fest Queensland</h5>
                   <p class="card-text">
@@ -205,7 +205,7 @@
             <!-- Card 6 -->
             <div class="col">
               <div class="card h-100">
-                <img src="img/savannah-in-the-round-2026.jpg" class="card-img-top" />
+                <img src="{{ url_for('static', filename='img/savannah-in-the-round-2026.jpg') }}" class="card-img-top" />
                 <div class="card-body">
                   <h5 class="card-title">Savannah In The Round</h5>
                   <p class="card-text">

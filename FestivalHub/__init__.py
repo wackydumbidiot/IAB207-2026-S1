@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 def create_app():
   
@@ -8,7 +8,7 @@ def create_app():
     # Should be set to false in a production environment
 
     def index():
-        return "Flask is running"
+        return render_template("index.html")
     
     # app.debug = True
 

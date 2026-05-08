@@ -10,7 +10,9 @@ def create_app():
     def index():
         return render_template("index.html")
     
-    # app.debug = True
+    @app.route("/create-festival")
+    def create_festival():
+        return render_template("create-festival.html")
 
     return app
     # app.secret_key = 'somesecretkey'

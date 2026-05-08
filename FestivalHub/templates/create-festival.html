@@ -17,14 +17,14 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" />
   </head>
   <body>
     <header>
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-dark custom-navbar bg-dark">
         <div class="container">
-          <a class="navbar-brand custom-brand" href="index.html">Festival Hub</a>
+          <a class="navbar-brand custom-brand" href="{{ url_for('index') }}">Festival Hub</a>
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="create-festival.html">Create Event</a>

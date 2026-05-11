@@ -26,9 +26,30 @@ def login():
             login_user(user)
             nextp = request.args.get('next') # this gives the url from where the login page was accessed
             print(nextp)
-            if next is None or not nextp.startswith('/'):
+            if nextp is None or not nextp.startswith('/'):
                 return redirect(url_for('index'))
             return redirect(nextp)
         else:
             flash(error)
     return render_template('user.html', form=login_form, heading='Login')
+
+
+#User Login Form
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, EqualTo, Length
+
+class LoginForm(FlaskForm):
+    
+    user_name = StringField(
+        'Username',
+        validators=[DataRequired()]
+    )
+    
+    password = PasswordField(
+        'Password',
+        validators=[DataRequired()]
+    )
+    submit = SubmitField('login')
+                         
+

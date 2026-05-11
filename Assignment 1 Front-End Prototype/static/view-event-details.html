@@ -189,6 +189,24 @@
                 </div>
               </div>
 
+                  <!-- Comments -->  
+              <div class="row">  
+                <div class="col-md-12">  
+                  <h2>Comments</h1>  
+                </div>  
+              </div>  
+          
+              <div class="row border-bottom"> 
+                {{render_form(form,"/destinations/{0}/comment".format(1))}}
+                {% for comment in destination.comments %}
+                <div class="col-md-12">  
+                  <b>{{comment.user}} <span class="ml-2 text-muted">January 2024</span></b>
+                  <p>{{comment.text}}</p>  
+                </div>
+                {% endfor %} 
+              </div>  
+            </div> 
+
               <div class="card shadow-sm">
                 <div class="card-body">
                   <h3 class="card-title mb-3">Post a Comment</h3>

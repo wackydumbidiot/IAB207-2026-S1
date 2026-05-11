@@ -1,0 +1,38 @@
+HTML
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ heading }}</title>
+  </head>
+
+  <body>
+    <h1>{{ heading }}</h1>
+
+    <form method ="POST">
+      {{ form.hidden_tag() }}
+
+      <p>
+        {{ form.user_name.label }}
+      </p>
+
+      
+      <p>
+        {{ form.user_name() }}
+      </p>
+
+     
+    <p>
+      {{ form.password.label }}
+    </p>
+
+    <p>
+      {{ form.password() }}
+    </p>
+
+    <p>
+      {{ form.submit() }}
+    </p>
+    </form>
+
+  </body>
+</html>

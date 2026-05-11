@@ -27,7 +27,7 @@
           <a class="navbar-brand custom-brand" href="{{ url_for('index') }}">Festival Hub</a>
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="create-festival.html">Create Event</a>
+              <a class="nav-link" href="{{ url_for('create_festival') }}">Create Event</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="view-bookings.html">View Bookings</a>
@@ -44,7 +44,7 @@
 
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }} ">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Create Events</li>
           </ol>
         </nav>
@@ -56,82 +56,151 @@
               Enter the details below to create or update an event.
             </p>
             <div class="col-lg-10 col-md-12">
-              <form>
+              <form method="POST" novalidate enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
                 <div class="mt-4 mb-4">
+                  
                   <label class="form-label">Event Name:</label>
-                  <input type="text" class="form-control" />
+                  {{ form.event_name(class="form-control is-invalid" if form.event_name.errors else "form-control") }}
+                  {% for error in form.event_name.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
                 </div>
 
                 <div class="mt-4 mb-4">
                   <label class="form-label">Event Description:</label>
-                  <textarea
+                  <!-- <textarea
                     type="text"
                     class="form-control"
                     rows="8"
-                  ></textarea>
+                  ></textarea> -->
+                  {{ form.event_description(class="form-control is-invalid" if form.event_description.errors else "form-control", rows=8) }}
+                  {% for error in form.event_description.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
                 </div>
 
                 <div class="mb-4 col-md-6">
                   <label class="form-label">Venue:</label>
-                  <input type="text" class="form-control" />
+                  {{ form.venue(class="form-control is-invalid" if form.venue.errors else "form-control") }}
+                  {% for error in form.venue.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
                 </div>
 
                 <div class="row">
                   <div class="mb-4 col-md-4">
                     <label class="form-label">Date:</label>
-                    <input type="date" class="form-control" />
+                    
+                    {{ form.date(
+                      class="form-control is-invalid" if form.date.errors else "form-control"
+                    ) }}
+                
+                    {% for error in form.date.errors %}
+                
+                      <div class="invalid-feedback d-block">{{ error }}</div>
+                
+                    {% endfor %}
                   </div>
 
                   <div class="mb-4 col-md-4">
                     <label class="form-label">Start Time:</label>
-                    <input type="time" class="form-control" />
+                    
+                    {{ form.start_time(
+                      class="form-control is-invalid" if form.start_time.errors else "form-control" 
+                    ) }}
+                
+                    {% for error in form.start_time.errors %}
+                
+                      <div class="invalid-feedback d-block">{{ error }}</div>
+                
+                    {% endfor %}
                   </div>
 
                   <div class="mb-4 col-md-4">
                     <label class="form-label">End Time:</label>
-                    <input type="time" class="form-control" />
+                    
+                    {{ form.end_time(
+                      class="form-control is-invalid" if form.end_time.errors else "form-control" 
+                    ) }}
+                
+                    {% for error in form.end_time.errors %}
+                
+                      <div class="invalid-feedback d-block">{{ error }}</div>
+                
+                    {% endfor %}
                   </div>
                 </div>
 
                 <div class="mb-4">
                   <label class="form-label">Category:</label>
-                  <select class="form-select" placeholder="Select Category">
-                    <option>Rock</option>
-                    <option>EDM</option>
-                    <option>Jazz</option>
-                    <option>Pop</option>
-                    <option>Country</option>
-                  </select>
+                  
+                  {{ form.category(
+                    class="form-select is-invalid" if form.category.errors else "form-select"
+                  ) }}
+                
+                  {% for error in form.category.errors %}
+                    <div class="invalid-feedback d-block">
+                
+                      {{ error }}
+                
+                    </div>
+                  {% endfor %}
                 </div>
 
                 <div class="mb-4 col-md-7">
                   <label class="form-label">Acknowledgement of Country:</label>
-                  <select class="form-select">
-                    <option>No Acknowledgement of Country</option>
-                    <option>Acknowledgement of Country: generic</option>
-                    <option>Acknowledgement of Country: enhanced</option>
-                  </select>
+                  
+                  {{ form.acknowledgement(
+                    class="form-select is-invalid" if form.acknowledgement.errors else "form-select"  
+                  ) }}
+                
+                  {% for error in form.acknowledgement.errors %}   
+                    <div class="invalid-feedback d-block">
+                      {{ error }}    
+                    </div>  
+                  {% endfor %}
                 </div>
 
                 <div class="mb-4 col-md-4">
                   <label class="form-label">Ticket Type:</label>
-                  <select class="form-select">
-                    <option>General Admission</option>
-                    <option>VIP</option>
-                  </select>
+                  {{ form.ticket_type(
+                    class="form-select is-invalid" if form.ticket_type.errors else "form-select"
+                  ) }}
+                
+                  {% for error in form.ticket_type.errors %}
+                    <div class="invalid-feedback d-block">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
                 </div>
 
                 <div class="mb-4 col-md-3">
                   <label class="form-label">Tickets Available:</label>
-                  <input type="number" class="form-control" />
+                  
+                  {{ form.tickets_available(
+                    class="form-control is-invalid" if form.tickets_available.errors else "form-control"
+                  ) }}
+                  {% for error in form.tickets_available.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
                 </div>
 
                 <div class="mb-4">
                   <label class="form-label">Event Image:</label>
-                  <input type="file" class="form-control" />
+                  
+                  {{ form.event_image(
+                    class="form-control is-invalid" if form.event_image.errors else "form-control"
+                  ) }}
+                
+                  {% for error in form.event_image.errors %}  
+                    <div class="invalid-feedback d-block">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
                 </div>
 
-                <button class="btn btn-primary mb-4">Create Event</button>
+                <button type="submit" class="btn btn-primary mb-4">Create Event</button>
               </form>
             </div>
           </div>

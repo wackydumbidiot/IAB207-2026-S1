@@ -52,72 +52,27 @@
         <div class="event-form mt-5">
           <div class="row justify-content-center">
             <h1 class="text-center">Event Created Successfully</h1>
-            <p class="text-center text-muted">
-              Your event has been successfully created and published.
-            </p>
+            
             <div class="col-lg-10 col-md-12">
-              <form method="POST" novalidate enctype="multipart/form-data">
-                {{ form.hidden_tag() }}
-                <div class="mt-4 mb-4">
-                  
-                  <label class="form-label">Event Name:</label>
-                  
+              <div class="card p-4 shadow-sm text-center">
+
+                <div class="display-1 text-success mb-3">✓</div>
+            
+                <h2>Event Published</h2>
+            
+                <p class="text-muted">          
+                  Your festival event has been successfully created and is published.
+                </p>
+            
+                <div class="mt-4">
+            
+                  <a href="{{ url_for('index') }}" class="btn btn-primary mb-2">
+                    Return to Homepage
+                  </a> 
+            
                 </div>
-
-                <div class="mt-4 mb-4">
-                  <label class="form-label">Event Description:</label>
-
-                </div>
-
-                <div class="mb-4 col-md-6">
-                  <label class="form-label">Venue:</label>
-                  
-                </div>
-
-                <div class="row">
-                  <div class="mb-4 col-md-4">
-                    <label class="form-label">Date:</label>
-                    
-                  </div>
-
-                  <div class="mb-4 col-md-4">
-                    <label class="form-label">Start Time:</label>
-                                    
-                  </div>
-
-                  <div class="mb-4 col-md-4">
-                    <label class="form-label">End Time:</label>
-                            
-                  </div>
-                </div>
-
-                <div class="mb-4">
-                  <label class="form-label">Category:</label>
-                    
-                </div>
-
-                <div class="mb-4 col-md-7">
-                  <label class="form-label">Acknowledgement of Country:</label>
-                   
-                </div>
-
-                <div class="mb-4 col-md-4">
-                  <label class="form-label">Ticket Type:</label>
-                   
-                </div>
-
-                <div class="mb-4 col-md-3">
-                  <label class="form-label">Tickets Available:</label>
-  
-                </div>
-
-                <div class="mb-4">
-                  <label class="form-label">Event Image:</label>
-
-                </div>
-
-                <button type="submit" class="btn btn-primary mb-4">Create Event</button>
-              </form>
+            
+              </div>
             </div>
           </div>
         </div>

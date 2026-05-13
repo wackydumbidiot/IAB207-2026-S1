@@ -23,8 +23,10 @@ def create_app():
 
         print("REQUEST METHOD:", request.method)
         print("FORM DATA:", request.form)
+
         if form.validate_on_submit():
-            return redirect(url_for("index"))
+            #event = {}
+            return render_template("event-created.html")
     
         print("FORM ERRORS:", form.errors)
 

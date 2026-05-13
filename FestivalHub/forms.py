@@ -8,35 +8,27 @@ from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, DateField, TimeField, SelectField, IntegerField, FileField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange
 
-# Create a blueprint - make sure all BPs have unique names
-# auth_bp = Blueprint('auth', __name__)
-
-# # this is a hint for a login function
-# @auth_bp.route('/login', methods=['GET', 'POST'])
-# # view function
-# def login():
-#     login_form = LoginForm()
-#     error = None
-#     if login_form.validate_on_submit():
-#         user_name = login_form.user_name.data
-#         password = login_form.password.data
-#         user = db.session.scalar(db.select(User).where(User.name==user_name))
-#         if user is None:
-#             error = 'Incorrect user name'
-#         elif not check_password_hash(user.password_hash, password): # takes the hash and cleartext password
-#             error = 'Incorrect password'
-#         if error is None:
-#             login_user(user)
-#             nextp = request.args.get('next') # this gives the url from where the login page was accessed
-#             print(nextp)
-#             if next is None or not nextp.startswith('/'):
-#                 return redirect(url_for('index'))
-#             return redirect(nextp)
-#         else:
-#             flash(error)
-#     return render_template('user.html', form=login_form, heading='Login')
-
 # creates the login information
+class LoginForm(FlaskForm):
+    user_name=StringField("User Name", validators=[InputRequired('Enter user name')])
+    password=PasswordField("Password", validators=[InputRequired('Enter user password')])
+    submit = SubmitField("Login")
+
+ # this is the registration form
+class RegisterForm(FlaskForm):
+    user_name=StringField("User Name", validators=[InputRequired()])
+    email = StringField("Email Address", validators=[Email("Please enter a valid email")])
+    # linking two fields - password should be equal to data entered in confirm
+    password=PasswordField("Password", validators=[InputRequired(),
+                  EqualTo('confirm', message="Passwords should match")])
+    confirm = PasswordField("Confirm Password")
+
+    # submit button
+    submit = SubmitField("Register")
+
+
+
+# creates the CreateOrUpdateEventForm information
 class CreateOrUpdateEventForm(FlaskForm):
     event_name=StringField("Event Name", validators=[InputRequired('Event name cannot be empty.')])
     event_description = TextAreaField("Description", validators=[InputRequired('Description cannot be empty.')])

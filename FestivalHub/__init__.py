@@ -20,6 +20,10 @@ def create_app():
     def event_created():
         return render_template("event-created.html")
     
+    @app.route("/view-event-details")
+    def view_event_details():
+        return render_template("view-event-details.html")
+    
     @app.route("/create-festival", methods=["GET", "POST"])
     def create_festival():
         from .forms import CreateOrUpdateEventForm

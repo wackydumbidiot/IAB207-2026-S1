@@ -20,9 +20,13 @@ def create_app():
     def event_created():
         return render_template("event-created.html")
     
-    @app.route("/view-event-details")
-    def view_event_details():
-        return render_template("view-event-details.html")
+    @app.route("/view-event-details/<int:event_id>")
+    def view_event_details(event_id):
+        from .models import Event
+
+        event = Event.query.get_or_404(event_id)
+
+        return render_template("view-event-details.html", event=event)
     
     @app.route("/create-festival", methods=["GET", "POST"])
     def create_festival():
@@ -37,6 +41,8 @@ def create_app():
 
         if form.validate_on_submit():
             uploaded_image = form.event_image.data
+
+            uploaded_image.save("FestivalHub/static/img/" + uploaded_image.filename)
             event = Event(
                 event_name = form.event_name.data,
                 event_description = form.event_description.data,

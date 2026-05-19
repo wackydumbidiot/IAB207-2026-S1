@@ -51,15 +51,15 @@
           <div class="col-md-10">
             <div class="row mb-3">
               <div class="col-lg-6">
-                <img src="img/edsheeran.jpg" class="img-fluid rounded w-100" />
+                <img src="{{ url_for('static', filename='img/edsheeran.jpg' + event.image) }}" class="img-fluid rounded w-100" />
               </div>
 
               <div class="col-lg-6">
-                <h1 class="mb-4">Ed Sheeran Tour 2026</h1>
+                <h1 class="mb-4">{{ event.event_name }}</h1>
 
                 <p class="mb-1">
                   <strong>Category:</strong>
-                  <span class="badge text-bg-primary">Pop</span>
+                  <span class="badge text-bg-primary">{{ event.category }}</span>
                 </p>
 
                 <p class="mb-1">

@@ -14,7 +14,11 @@ def create_app():
     # Should be set to false in a production environment
 
     def index():
-        return render_template("index.html")
+        from .models import Event
+
+        events = Event.query.all()
+
+        return render_template("index.html", events=events)
     
     @app.route("/event-created")
     def event_created():

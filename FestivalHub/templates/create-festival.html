@@ -69,11 +69,6 @@
 
                 <div class="mt-4 mb-4">
                   <label class="form-label">Event Description:</label>
-                  <!-- <textarea
-                    type="text"
-                    class="form-control"
-                    rows="8"
-                  ></textarea> -->
                   {{ form.event_description(class="form-control is-invalid" if form.event_description.errors else "form-control", rows=8) }}
                   {% for error in form.event_description.errors %}
                     <div class="invalid-feedback d-block">{{ error }}</div>

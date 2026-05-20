@@ -55,6 +55,7 @@ def create_app():
                 start_time = form.start_time.data,
                 end_time = form.end_time.data,
                 category = form.category.data,
+                acknowledgement_of_country = form.acknowledgement.data,
                 image = uploaded_image.filename,
                 ticket_type = form.ticket_type.data,
                 tickets_available = form.tickets_available.data

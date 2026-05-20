@@ -20,6 +20,10 @@ def create_app():
     def event_created():
         return render_template("event-created.html")
     
+    @app.route("/booking-confirmed")
+    def booking_confirmed():
+        return render_template("booking-confirmed.html")
+    
     @app.route("/view-event-details/<int:event_id>")
     def view_event_details(event_id):
         from .models import Event

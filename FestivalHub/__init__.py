@@ -14,11 +14,19 @@ def create_app():
     # Should be set to false in a production environment
 
     def index():
-        return render_template("index.html")
+        from .models import Event
+
+        events = Event.query.all()
+
+        return render_template("index.html", events=events)
     
     @app.route("/event-created")
     def event_created():
         return render_template("event-created.html")
+    
+    @app.route("/booking-confirmed")
+    def booking_confirmed():
+        return render_template("booking-confirmed.html")
     
     @app.route("/view-event-details/<int:event_id>")
     def view_event_details(event_id):
@@ -51,6 +59,7 @@ def create_app():
                 start_time = form.start_time.data,
                 end_time = form.end_time.data,
                 category = form.category.data,
+                acknowledgement_of_country = form.acknowledgement.data,
                 image = uploaded_image.filename,
                 ticket_type = form.ticket_type.data,
                 tickets_available = form.tickets_available.data

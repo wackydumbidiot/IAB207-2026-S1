@@ -29,3 +29,12 @@ class Event(db.Model):
 
 # class Order(db.Model):
 #     pass
+# Booking/order database table
+class Order(db.Model):
+    __tablename__ = 'order'
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.String(20), unique=True, nullable=False)
+    booking_date = db.Column(db.DateTime, default=datetime.utcnow)
+    quantity = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)

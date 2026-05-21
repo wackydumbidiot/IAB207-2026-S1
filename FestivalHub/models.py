@@ -4,6 +4,13 @@ from flask_login import UserMixin
 
 # class User(db.Model, UserMixin):
 #     pass
+class User(db.Model, UserMixin):
+    __tablename__ = 'User'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80),unique=True,nullable=False)
+    email = db.Column(db.String(120),unique=True,nullable=False)
+    password_hash = db.Column(db.String(255),nullable=False)
+    orders = db.relationship('Order',backref='user',lazy=True)
 
 class Event(db.Model):
     __tablename__ = 'events'

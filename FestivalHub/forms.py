@@ -48,6 +48,15 @@ class CreateOrUpdateEventForm(FlaskForm):
                                                 ],
                                                 validators=[InputRequired("Please select a category")])
     
+    event_status = SelectField("Status", choices=[
+                                                ("", "Select Status"),
+                                                ("Open", "Open"),
+                                                ("Inactive", "Inactive"),
+                                                ("Sold Out", "Sold Out"),
+                                                ("Cancelled", "Cancelled")
+                                                ],
+                                                validators=[InputRequired("Please select a status")])
+    
     acknowledgement = SelectField("Acknowledgement of Country:", choices=[
         ("", "Select Acknowledge of Country"),
         ("No Acknowledgement of Country", "No Acknowledgement of Country"),

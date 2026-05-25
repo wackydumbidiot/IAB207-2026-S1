@@ -64,7 +64,19 @@
 
                 <p class="mb-1">
                   <strong>Status:</strong>
-                  <span class="badge text-bg-success">{{ event.event_status}}</span>
+                  <span class="badge 
+                  {% if event.event_status  == 'Open' %}
+                    text-bg-success
+                  {% elif event.event_status  == 'Sold Out' %}
+                    text-bg-secondary
+                  {% elif event.event_status  == 'Cancelled' %}
+                    text-bg-danger
+                  {% elif event.event_status  == 'Inactive' %}
+                    text-bg-warning
+                  {% endif %}
+                  ">
+                  {{ event.event_status}}
+                  </span>
                 </p>
 
                 <p class="mb-1"><strong>Venue:</strong> {{ event.venue }}</p>

@@ -27,25 +27,27 @@
           <div class="container">
             <a class="navbar-brand custom-brand" href="{{ url_for('index') }}">Festival Hub</a>
             <div class="d-flex align-items-center ms-auto">
-              <form class="d-flex gap-2 me-3">
+              <form class="d-flex gap-2 me-3" method="GET" action="{{ url_for('index') }}">
                 <input
                   type="text"
                   id="search"
+                  name="search"
                   class="form-control"
                   placeholder="Search by event"
+                  value="{{ request.args.get('search', '') }}"
                   style="width: 230px"
                 />
 
-                <select class="form-select" style="width: 150px">
-                  <option selected>Category</option>
-                  <option>Rock</option>
-                  <option>EDM</option>
-                  <option>Jazz</option>
-                  <option>Pop</option>
-                  <option>Country</option>
+                <select name="category" class="form-select" style="width: 150px">
+                  <option selected value="">Category</option>
+                  <option value="Rock">Rock</option>
+                  <option value="EDM">EDM</option>
+                  <option value="Jazz">Jazz</option>
+                  <option value="Pop">Pop</option>
+                  <option value="Country">Country</option>
                 </select>
 
-                <button class="btn btn-outline-light custom-search-btn">Search</button>
+                <button type="submit" class="btn btn-outline-light custom-search-btn">Search</button>
               </form>
             </div>
 
@@ -95,7 +97,19 @@
                 <div class="card-footer">
                   <small class="text-body-secondary">
                     <strong>Event Status: </strong>
-                    <span class="badge text-bg-success">Open</span>
+                    <span class="badge 
+                      {% if event.event_status  == 'Open' %}
+                        text-bg-success
+                      {% elif event.event_status  == 'Sold Out' %}
+                        text-bg-secondary
+                      {% elif event.event_status  == 'Cancelled' %}
+                        text-bg-danger
+                      {% elif event.event_status  == 'Inactive' %}
+                        text-bg-warning
+                      {% endif %}
+                      ">
+                      {{ event.event_status }}
+                    </span>
                   </small>
                 </div>
               </div>

@@ -38,13 +38,21 @@
                   style="width: 230px"
                 />
 
-                <select name="category" class="form-select" style="width: 150px">
-                  <option selected value="">Category</option>
+                <select name="category" class="form-select" style="width: 165px">
+                  <option selected disabled value="">Select Category</option>
                   <option value="Rock">Rock</option>
                   <option value="EDM">EDM</option>
                   <option value="Jazz">Jazz</option>
                   <option value="Pop">Pop</option>
                   <option value="Country">Country</option>
+                </select>
+
+                <select name="event_status" class="form-select" style="width: 145px">
+                  <option selected disabled value="">Select Status</option>
+                  <option value="Open">Open</option>
+                  <option value="Inactive">Inactive</option>
+                  <option value="Sold Out">Sold Out</option>
+                  <option value="Cancelled">Cancelled</option>
                 </select>
 
                 <button type="submit" class="btn btn-outline-light custom-search-btn">Search</button>

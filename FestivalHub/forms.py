@@ -10,18 +10,28 @@ from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRang
 
 # creates the login information
 class LoginForm(FlaskForm):
-    user_name=StringField("User Name", validators=[InputRequired('Enter user name')])
+    user_name=StringField("User Name", validators=[InputRequired('Enter user name'),
+                                                Email("Please enter a valid email")])
     password=PasswordField("Password", validators=[InputRequired('Enter user password')])
     submit = SubmitField("Login")
 
  # this is the registration form
 class RegisterForm(FlaskForm):
-    user_name=StringField("User Name", validators=[InputRequired()])
-    email = StringField("Email Address", validators=[Email("Please enter a valid email")])
+    first_name = StringField("First Name", validators=[InputRequired("Enter your first name")])
+    surname = StringField("Surname", validators=[InputRequired("Enter your surname")])
+    email = StringField("Email Address", validators=[
+        InputRequired("Enter your email"),
+        Email("Please enter a valid email")
+    ])
     # linking two fields - password should be equal to data entered in confirm
-    password=PasswordField("Password", validators=[InputRequired(),
-                  EqualTo('confirm', message="Passwords should match")])
-    confirm = PasswordField("Confirm Password")
+    password = PasswordField("Password", validators=[
+        InputRequired("Enter your password"),
+        EqualTo('confirm', message="Passwords should match")
+    ])
+    confirm = PasswordField("Confirm Password", validators=[InputRequired("Confirm your password")])
+    contact_number = StringField("Contact Number", validators=[InputRequired("Enter your contact number number")])
+    street_address = StringField("Street Address", validators=[InputRequired("Enter your street address")])
+
 
     # submit button
     submit = SubmitField("Register")
@@ -76,3 +86,13 @@ class CreateOrUpdateEventForm(FlaskForm):
     event_image = FileField("Event Image:", validators=[InputRequired(message="Please upload an event image.")])
 
     submit = SubmitField("Create Event", validators=[InputRequired()])
+
+
+
+
+class CommentForm(FlaskForm):
+    text = TextAreaField("Comment", validators=[
+        InputRequired("Commenting cannot be empty."),
+        Length(max=500, message="Comment not exceeding more than 500 characters.")
+    ])
+    submit = SubmitField("Post Comment")

@@ -154,39 +154,41 @@
 
           <div class="row justify-content-center">
             <div class="col-md-11">
-              <h2 class="mb-4 mt-5">Comments:</h2>
-              <div class="card mb-3">
-                <div class="card-body">
-                  <h5 class="card-title mb-1">Alice Smith</h5>
-                  <p class="text-muted mb-2">Posted on 5 March 2026</p>
-                  <p class="card-text">
-                    Love Ed Sheeran but also amazing lineup this year!. Really excited to attend with my
-                    friends.
-                  </p>
-                </div>
-              </div>
+            <h2 class="mb-4 mt-5">Comments:</h2>
 
-              <div class="card mb-4">
-                <div class="card-body">
-                  <h5 class="card-title mb-1">Bob Johnson</h5>
-                  <p class="text-muted mb-2">Posted on 7 March 2026</p>
-                  <p class="card-text">
-                    The venue looks great, the ticket options and the pricing seems pretty reasonable. Other than
-                    that, I cannot wait for more future events!
-                  </p>
-                </div>
-              </div>
+            {% if event.comments %}
+              {% for comment in event.comments %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">
+                      {{ comment.user.first_name }} {{ comment.user.surname }}
+                    </h5>
 
-              <div class="card mb-4">
-                <div class="card-body">
-                  <h5 class="card-title mb-1">Sean Dewantoro</h5>
-                  <p class="text-muted mb-2">Posted on 7 March 2026</p>
-                  <p class="card-text">
-                    Such a good venue would recommend, good service.
-                  </p>
-                </div>
-              </div>
+                    <p class="text-muted mb-2">
+                      Posted on {{ comment.created_at.strftime('%d %B %Y') }}
+                    </p>
 
+                    <p class="card-text">
+                      {{ comment.comment_text }}
+                    </p>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="alert alert-light border" role="alert">
+                No comments have been posted for this event yet.
+              </div>
+            {% endif %}
+
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h3 class="card-title mb-3">Post a Comment</h3>
+
+                {% if current_user.is_authenticated %}
+                  <form method="POST" action="{{ url_for('post_comment', event_id=event.id) }}">
+                    {{ form.hidden_tag() }}
+
+<<<<<<< HEAD
                   <!-- Comments -->  
               <div class="row">  
                 <div class="col-md-12">  
@@ -209,22 +211,27 @@
                 <div class="card-body">
                   <h3 class="card-title mb-3">Post a Comment</h3>
                   <form>
+=======
+>>>>>>> a3a6a91 (Add event comments and demo data)
                     <div class="mb-3">
-                      <label for="commentText" class="form-label"
-                        >Your Comment:</label>
-                      <textarea
-                        class="form-control"
-                        id="commentText"
-                        rows="4"
-                        placeholder="Enter your comment here">
-                      </textarea>
+                      {{ form.text.label(class="form-label") }}
+                      {{ form.text(class="form-control", rows="4", placeholder="Enter your comment here") }}
+
+                      {% for error in form.text.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                      {% endfor %}
                     </div>
-                    <button type="submit" class="btn btn-secondary">
-                      Post Comment
-                    </button>
+
+                    {{ form.submit(class="btn btn-secondary") }}
                   </form>
-                </div>
+                {% else %}
+                  <p class="mb-3">Please log in to post a comment.</p>
+                  <a href="{{ url_for('auth.login', next=request.path) }}" class="btn btn-secondary">
+                    Log in to Comment
+                  </a>
+                {% endif %}
               </div>
+            </div>
             </div>
           </div>
         </div>

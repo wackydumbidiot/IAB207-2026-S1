@@ -16,7 +16,17 @@ def create_app():
     def index():
         from .models import Event
 
-        events = Event.query.all()
+        search = request.args.get("search", "")
+        category = request.args.get("category", "")
+        query = Event.query
+
+        if search:
+            query = query.filter(Event.event_name.ilike(f"%{search}%"))
+
+        if category:
+            query = query.filter(Event.category == category)
+
+        events = query.all()
 
         return render_template("index.html", events=events)
     

@@ -27,25 +27,35 @@
           <div class="container">
             <a class="navbar-brand custom-brand" href="{{ url_for('index') }}">Festival Hub</a>
             <div class="d-flex align-items-center ms-auto">
-              <form class="d-flex gap-2 me-3">
+              <form class="d-flex gap-2 me-3" method="GET" action="{{ url_for('index') }}">
                 <input
                   type="text"
                   id="search"
+                  name="search"
                   class="form-control"
                   placeholder="Search by event"
+                  value="{{ request.args.get('search', '') }}"
                   style="width: 230px"
                 />
 
-                <select class="form-select" style="width: 150px">
-                  <option selected>Category</option>
-                  <option>Rock</option>
-                  <option>EDM</option>
-                  <option>Jazz</option>
-                  <option>Pop</option>
-                  <option>Country</option>
+                <select name="category" class="form-select" style="width: 165px">
+                  <option selected disabled value="">Select Category</option>
+                  <option value="Rock">Rock</option>
+                  <option value="EDM">EDM</option>
+                  <option value="Jazz">Jazz</option>
+                  <option value="Pop">Pop</option>
+                  <option value="Country">Country</option>
                 </select>
 
-                <button class="btn btn-outline-light custom-search-btn">Search</button>
+                <select name="event_status" class="form-select" style="width: 145px">
+                  <option selected disabled value="">Select Status</option>
+                  <option value="Open">Open</option>
+                  <option value="Inactive">Inactive</option>
+                  <option value="Sold Out">Sold Out</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+
+                <button type="submit" class="btn btn-outline-light custom-search-btn">Search</button>
               </form>
             </div>
 
@@ -76,35 +86,56 @@
           <div class="row justify-content-center row-cols-1 row-cols-md-3 g-4">
 
             <!-- Card display events -->
-            {% for event in events %}
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{ url_for('static', filename='img/' + event.image) }}" class="card-img-top" />
-                <div class="card-body">
-                  <h5 class="card-title">{{ event.event_name }}</h5>
-                  <p class="card-text">
-                    {{ event.event_description }}
-                  </p>
-                  <p class="text-muted small mt-2">
-                    {{ event.venue}}
-                  </p>
-                  <a href="{{ url_for('view_event_details', event_id=event.id) }}" class="btn btn-primary">
-                    View Event Details
-                  </a>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">
-                    <strong>Event Status: </strong>
-                    <span class="badge text-bg-success">Open</span>
-                  </small>
+            {% if events %}
+            
+              {% for event in events %}
+              <div class="col">
+                <div class="card h-100">
+                  <img src="{{ url_for('static', filename='img/' + event.image) }}" class="card-img-top" />
+                  <div class="card-body">
+                    <h5 class="card-title">{{ event.event_name }}</h5>
+                    <p class="card-text">
+                      {{ event.event_description }}
+                    </p>
+                    <p class="text-muted small mt-2">
+                      {{ event.venue}}
+                    </p>
+                    <a href="{{ url_for('view_event_details', event_id=event.id) }}" class="btn btn-primary">
+                      View Event Details
+                    </a>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-body-secondary">
+                      <strong>Event Status: </strong>
+                      <span class="badge 
+                        {% if event.event_status  == 'Open' %}
+                          text-bg-success
+                        {% elif event.event_status  == 'Sold Out' %}
+                          text-bg-secondary
+                        {% elif event.event_status  == 'Cancelled' %}
+                          text-bg-danger
+                        {% elif event.event_status  == 'Inactive' %}
+                          text-bg-warning
+                        {% endif %}
+                        ">
+                        {{ event.event_status }}
+                      </span>
+                    </small>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            {% endfor %}
-          </div>
+              
+              {% endfor %}
 
-          <!-- Row 2 Festival Cards -->
+            {% else %}
+              <div class="col-12 text-center">
+                <div class="alert alert-warning">
+                  No results found for "{{ request.args.get('search') }}". Want to try again?
+                </div>
+              </div>
+            {% endif %}
+
+          </div>
           
         </div>
       </div>

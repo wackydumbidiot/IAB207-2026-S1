@@ -2,8 +2,25 @@ from . import db
 from datetime import datetime
 from flask_login import UserMixin
 
-# class User(db.Model, UserMixin):
-#     pass
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    first_name = db.Column(db.String(100), nullable=False)
+    surname = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    password_hash = db.Column(db.String(255), nullable=False)
+    contact_number = db.Column(db.String(20), nullable=False)
+    street_address = db.Column(db.String(255), nullable=False)
+
+    created_at = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
+
+    # One user can post many comments
+    comments = db.relationship('Comment', backref='user', lazy=True)
+
+    def __repr__(self):
+        return f"User: {self.email}"
 
 class Event(db.Model):
     __tablename__ = 'events'
@@ -22,12 +39,23 @@ class Event(db.Model):
     image = db.Column(db.String(400), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
 
+    comments = db.relationship('Comment', backref='event', lazy=True)
+
     # String print method
     def __repr__(self):
-        return f"Name: {self.name}"
+        return f"Name: {self.event_name}"
 
-# class Comment(db.Model):
-#     pass
+class Comment(db.Model):
+    __tablename__ = 'comments'
 
+    id = db.Column(db.Integer, primary_key=True)
+    comment_text = db.Column(db.String(500), nullable=False)
+    created_at = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
+
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Comment: {self.comment_text}"
 # class Order(db.Model):
 #     pass

@@ -36,22 +36,30 @@
       </nav>
     </header>
 
-    <!-- View Event Details Form -->
+  <!-- View Event Details Form -->
     <main class="container mt-5">
-
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Event Details</li>
+          <li class="breadcrumb-item">
+            <a href="{{ url_for('index') }}">Home</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Event Details
+          </li>
         </ol>
       </nav>
 
       <div class="event-form mb-5 mt-5">
+        <!-- Event details section -->
         <div class="row justify-content-center">
           <div class="col-md-10">
             <div class="row mb-3">
               <div class="col-lg-6">
-                <img src="{{ url_for('static', filename='img/' + event.image) }}" class="img-fluid rounded w-100" />
+                <img
+                  src="{{ url_for('static', filename='img/' + event.image) }}"
+                  class="img-fluid rounded w-100"
+                  alt="{{ event.event_name }}"
+                />
               </div>
 
               <div class="col-lg-6">
@@ -64,45 +72,67 @@
 
                 <p class="mb-1">
                   <strong>Status:</strong>
-                  <span class="badge text-bg-success">{{ event.event_status}}</span>
+                  <span class="badge text-bg-success">
+                    {{ event.event_status }}
+                  </span>
                 </p>
 
-                <p class="mb-1"><strong>Venue:</strong> {{ event.venue }}</p>
-                <p class="mb-1"><strong>Date:</strong> {{ event.date.strftime('%d/%m/%Y') }}</p>
-                <p class="mb-1"><strong>Start Time:</strong> {{ event.start_time.strftime('%I:%M %p') }}</p>
-                <p class="mb-1"><strong>End Time:</strong> {{ event.end_time.strftime('%I:%M %p') }}</p>
-                <p class="mb-1"><strong>Tickets Available:</strong> {{ event.tickets_available }}</p>
+                <p class="mb-1">
+                  <strong>Venue:</strong> {{ event.venue }}
+                </p>
+
+                <p class="mb-1">
+                  <strong>Date:</strong> {{ event.date.strftime('%d/%m/%Y') }}
+                </p>
+
+                <p class="mb-1">
+                  <strong>Start Time:</strong>
+                  {{ event.start_time.strftime('%I:%M %p') }}
+                </p>
+
+                <p class="mb-1">
+                  <strong>End Time:</strong>
+                  {{ event.end_time.strftime('%I:%M %p') }}
+                </p>
+
+                <p class="mb-1">
+                  <strong>Tickets Available:</strong>
+                  {{ event.tickets_available }}
+                </p>
 
                 <h4 class="mt-4">Description:</h4>
                 <p>{{ event.event_description }}</p>
 
                 <h4 class="mt-4">Acknowledgement of Country:</h4>
-                <p>
-                  {{ event.acknowledgement_of_country }}
-                </p>
+                <p>{{ event.acknowledgement_of_country }}</p>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- Event location section -->
         <div class="row justify-content-center">
           <div class="col-md-10">
             <h2>Event Location:</h2>
+
             <div class="ratio ratio-16x9 mb-2">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3595.930655459228!2d153.0301871754582!3d-27.450304776330885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b9159ec1c470c4f%3A0x1d02a35beba17810!2sBrisbane%20Showgrounds!5e1!3m2!1sen!2sau!4v1774107278274!5m2!1sen!2sau"
                 style="border: 0"
                 allowfullscreen=""
                 loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade">
+                referrerpolicy="no-referrer-when-downgrade"
+              >
               </iframe>
             </div>
+
             <p class="text-muted mb-5">
               Brisbane Showgrounds, Queensland, Australia
             </p>
           </div>
         </div>
 
+        <!-- Booking section -->
         <div class="row justify-content-center">
           <div class="col-md-8">
             <div class="card shadow-sm">
@@ -144,86 +174,78 @@
                   </div>
                 </form>
 
-                <div class="alert alert-info mt-4 col-md-10 custom-alert" role="alert">
+                <div
+                  class="alert alert-info mt-4 col-md-10 custom-alert"
+                  role="alert"
+                >
                   <strong>Note:</strong> Booking confirmation will be shown
                   after successful booking.
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="row justify-content-center">
-            <div class="col-md-11">
-              <h2 class="mb-4 mt-5">Comments:</h2>
-              <div class="card mb-3">
-                <div class="card-body">
-                  <h5 class="card-title mb-1">Alice Smith</h5>
-                  <p class="text-muted mb-2">Posted on 5 March 2026</p>
-                  <p class="card-text">
-                    Love Ed Sheeran but also amazing lineup this year!. Really excited to attend with my
-                    friends.
-                  </p>
+        <!-- Comments section -->
+        <div class="row justify-content-center">
+          <div class="col-md-11">
+            <h2 class="mb-4 mt-5">Comments:</h2>
+
+            {% if event.comments %}
+              {% for comment in event.comments %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">
+                      {{ comment.user.first_name }} {{ comment.user.surname }}
+                    </h5>
+
+                    <p class="text-muted mb-2">
+                      Posted on {{ comment.created_at.strftime('%d %B %Y') }}
+                    </p>
+
+                    <p class="card-text">
+                      {{ comment.comment_text }}
+                    </p>
+                  </div>
                 </div>
+              {% endfor %}
+            {% else %}
+              <div class="alert alert-light border" role="alert">
+                No comments have been posted for this event yet.
               </div>
+            {% endif %}
 
-              <div class="card mb-4">
-                <div class="card-body">
-                  <h5 class="card-title mb-1">Bob Johnson</h5>
-                  <p class="text-muted mb-2">Posted on 7 March 2026</p>
-                  <p class="card-text">
-                    The venue looks great, the ticket options and the pricing seems pretty reasonable. Other than
-                    that, I cannot wait for more future events!
-                  </p>
-                </div>
-              </div>
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h3 class="card-title mb-3">Post a Comment</h3>
 
-              <div class="card mb-4">
-                <div class="card-body">
-                  <h5 class="card-title mb-1">Sean Dewantoro</h5>
-                  <p class="text-muted mb-2">Posted on 7 March 2026</p>
-                  <p class="card-text">
-                    Such a good venue would recommend, good service.
-                  </p>
-                </div>
-              </div>
+                {% if current_user.is_authenticated %}
+                  <form
+                    method="POST"
+                    action="{{ url_for('post_comment', event_id=event.id) }}"
+                  >
+                    {{ form.hidden_tag() }}
 
-                  <!-- Comments -->  
-              <div class="row">  
-                <div class="col-md-12">  
-                  <h2>Comments</h1>  
-                </div>  
-              </div>  
-          
-              <div class="row border-bottom"> 
-                {{render_form(form,"/destinations/{0}/comment".format(1))}}
-                {% for comment in destination.comments %}
-                <div class="col-md-12">  
-                  <b>{{comment.user}} <span class="ml-2 text-muted">January 2024</span></b>
-                  <p>{{comment.text}}</p>  
-                </div>
-                {% endfor %} 
-              </div>  
-            </div> 
-
-              <div class="card shadow-sm">
-                <div class="card-body">
-                  <h3 class="card-title mb-3">Post a Comment</h3>
-                  <form>
                     <div class="mb-3">
-                      <label for="commentText" class="form-label"
-                        >Your Comment:</label>
-                      <textarea
-                        class="form-control"
-                        id="commentText"
-                        rows="4"
-                        placeholder="Enter your comment here">
-                      </textarea>
+                      {{ form.text.label(class="form-label") }}
+                      {{ form.text(class="form-control", rows="4", placeholder="Enter your comment here") }}
+
+                      {% for error in form.text.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                      {% endfor %}
                     </div>
-                    <button type="submit" class="btn btn-secondary">
-                      Post Comment
-                    </button>
+
+                    {{ form.submit(class="btn btn-secondary") }}
                   </form>
-                </div>
+                {% else %}
+                  <p class="mb-3">Please log in to post a comment.</p>
+                  <a
+                    href="{{ url_for('auth.login', next=request.path) }}"
+                    class="btn btn-secondary"
+                  >
+                    Log in to Comment
+                  </a>
+                {% endif %}
               </div>
             </div>
           </div>

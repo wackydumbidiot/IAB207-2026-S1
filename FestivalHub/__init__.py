@@ -1,7 +1,7 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash 
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, login_required, current_user
 
 db = SQLAlchemy()
 
@@ -9,7 +9,19 @@ def create_app():
   
     app = Flask(__name__)  # this is the name of the module/package that is calling this app
     app.config["SECRET_KEY"] = "mysecretkey"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///Festivaldata.sqlite"
 
+ # initialise the login manager
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+
+    from .models import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return db.session.get(User, int(user_id))
+    
     @app.route("/")
     # Should be set to false in a production environment
 
@@ -31,11 +43,41 @@ def create_app():
     @app.route("/view-event-details/<int:event_id>")
     def view_event_details(event_id):
         from .models import Event
+        from .forms import CommentForm
 
         event = Event.query.get_or_404(event_id)
+        form = CommentForm()
 
-        return render_template("view-event-details.html", event=event)
+        return render_template(
+            "view-event-details.html",
+            event=event,
+            form=form
+        )
     
+
+    @app.route("/view-event-details/<int:event_id>/comment", methods=["POST"])
+    @login_required
+    def post_comment(event_id):
+        from .models import Event, Comment
+        from .forms import CommentForm
+
+        event = Event.query.get_or_404(event_id)
+        form = CommentForm()
+
+        if form.validate_on_submit():
+            comment = Comment(
+                comment_text=form.text.data,
+                event_id=event.id,
+                user_id=current_user.id
+            )
+
+            db.session.add(comment)
+            db.session.commit()
+
+            flash("Your comment has been posted.", "success")
+
+            return redirect(url_for("view_event_details", event_id=event.id))
+
     @app.route("/create-festival", methods=["GET", "POST"])
     def create_festival():
         from .forms import CreateOrUpdateEventForm
@@ -109,8 +151,12 @@ def create_app():
 
     # from . import views
     # app.register_blueprint(views.main_bp)
+    # initialise the login manager
 
-    # from . import auth
-    # app.register_blueprint(auth.auth_bp)
+
+
+
+    from . import auth
+    app.register_blueprint(auth.auth_bp)
     
     return app

@@ -143,6 +143,22 @@
                   {% endfor %}
                 </div>
 
+                <div class="mb-4">
+                  <label class="form-label">Status:</label>
+                  
+                  {{ form.event_status(
+                    class="form-select is-invalid" if form.event_status.errors else "form-select"
+                  ) }}
+                
+                  {% for error in form.event_status.errors %}
+                    <div class="invalid-feedback d-block">
+                
+                      {{ error }}
+                
+                    </div>
+                  {% endfor %}
+                </div>
+
                 <div class="mb-4 col-md-7">
                   <label class="form-label">Acknowledgement of Country:</label>
                   

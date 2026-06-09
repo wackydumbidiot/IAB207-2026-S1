@@ -35,6 +35,7 @@ class Event(db.Model):
     event_status = db.Column(db.String(20), nullable=False)
     acknowledgement_of_country = db.Column(db.String(100), nullable=False)
     ticket_type = db.Column(db.String(20), nullable=False)
+    tickets_price = db.Column(db.String(30), nullable=False)
     tickets_available = db.Column(db.Integer, nullable=False)
     image = db.Column(db.String(400), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)

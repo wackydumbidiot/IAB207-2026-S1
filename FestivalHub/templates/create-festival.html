@@ -61,7 +61,8 @@
                 <div class="mt-4 mb-4">
                   
                   <label class="form-label">Event Name:</label>
-                  {{ form.event_name(class="form-control is-invalid" if form.event_name.errors else "form-control") }}
+                  {{ form.event_name(class="form-control is-invalid" if form.event_name.errors else "form-control",
+                  placeholder="Enter a name of the event.") }}
                   {% for error in form.event_name.errors %}
                     <div class="invalid-feedback d-block">{{ error }}</div>
                   {% endfor %}
@@ -69,7 +70,9 @@
 
                 <div class="mt-4 mb-4">
                   <label class="form-label">Event Description:</label>
-                  {{ form.event_description(class="form-control is-invalid" if form.event_description.errors else "form-control", rows=8) }}
+                  {{ form.event_description(class="form-control is-invalid" if form.event_description.errors else "form-control",
+                   rows=5, 
+                   placeholder="Enter a description of the event.") }}
                   {% for error in form.event_description.errors %}
                     <div class="invalid-feedback d-block">{{ error }}</div>
                   {% endfor %}
@@ -77,7 +80,8 @@
 
                 <div class="mb-4 col-md-6">
                   <label class="form-label">Venue:</label>
-                  {{ form.venue(class="form-control is-invalid" if form.venue.errors else "form-control") }}
+                  {{ form.venue(class="form-control is-invalid" if form.venue.errors else "form-control",
+                  placeholder="Enter the location or venue of the event.") }}
                   {% for error in form.venue.errors %}
                     <div class="invalid-feedback d-block">{{ error }}</div>
                   {% endfor %}
@@ -127,77 +131,80 @@
                   </div>
                 </div>
 
-                <div class="mb-4">
-                  <label class="form-label">Category:</label>
+                <div class="row">
+                  <div class="mb-4 col-md-3">
+                    <label class="form-label">Category:</label>
+                    
+                    {{ form.category(
+                      class="form-select is-invalid" if form.category.errors else "form-select"
+                    ) }}
                   
-                  {{ form.category(
-                    class="form-select is-invalid" if form.category.errors else "form-select"
-                  ) }}
+                    {% for error in form.category.errors %}
+                      <div class="invalid-feedback d-block">
+                  
+                        {{ error }}
+                  
+                      </div>
+                    {% endfor %}
+                  </div>
+
                 
-                  {% for error in form.category.errors %}
-                    <div class="invalid-feedback d-block">
-                
-                      {{ error }}
-                
-                    </div>
-                  {% endfor %}
+                  <div class="mb-4 col-md-5">
+                    <label class="form-label">Acknowledgement of Country:</label>
+                    
+                    {{ form.acknowledgement(
+                      class="form-select is-invalid" if form.acknowledgement.errors else "form-select"  
+                    ) }}
+                  
+                    {% for error in form.acknowledgement.errors %}   
+                      <div class="invalid-feedback d-block">
+                        {{ error }}    
+                      </div>  
+                    {% endfor %}
+                  </div>
                 </div>
 
-                <div class="mb-4">
-                  <label class="form-label">Status:</label>
+                <div class="row">
+                  <div class="mb-4 col-md-4">
+                    <label class="form-label">Ticket Type:</label>
+                    {{ form.ticket_type(
+                      class="form-select is-invalid" if form.ticket_type.errors else "form-select"
+                    ) }}
                   
-                  {{ form.event_status(
-                    class="form-select is-invalid" if form.event_status.errors else "form-select"
-                  ) }}
-                
-                  {% for error in form.event_status.errors %}
-                    <div class="invalid-feedback d-block">
-                
-                      {{ error }}
-                
+                    {% for error in form.ticket_type.errors %}
+                      <div class="invalid-feedback d-block">
+                        {{ error }}
+                      </div>
+                    {% endfor %}
+                  </div>
+
+                  <div class="mb-4 col-md-3">
+                    <label class="form-label">Ticket Price:</label>
+                    
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                    {{ form.tickets_price(
+                      class="form-control is-invalid" if form.tickets_price.errors else "form-control", placeholder="0.00"
+                    ) }}
                     </div>
-                  {% endfor %}
+                    {% for error in form.tickets_price.errors %}
+                      <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+
+                  <div class="mb-4 col-md-3">
+                    <label class="form-label">Tickets Available:</label>
+                    
+                    {{ form.tickets_available(
+                      class="form-control is-invalid" if form.tickets_available.errors else "form-control",
+                      placeholder="Enter available tickets.") }}
+                    {% for error in form.tickets_available.errors %}
+                      <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                  </div>
                 </div>
 
                 <div class="mb-4 col-md-7">
-                  <label class="form-label">Acknowledgement of Country:</label>
-                  
-                  {{ form.acknowledgement(
-                    class="form-select is-invalid" if form.acknowledgement.errors else "form-select"  
-                  ) }}
-                
-                  {% for error in form.acknowledgement.errors %}   
-                    <div class="invalid-feedback d-block">
-                      {{ error }}    
-                    </div>  
-                  {% endfor %}
-                </div>
-
-                <div class="mb-4 col-md-4">
-                  <label class="form-label">Ticket Type:</label>
-                  {{ form.ticket_type(
-                    class="form-select is-invalid" if form.ticket_type.errors else "form-select"
-                  ) }}
-                
-                  {% for error in form.ticket_type.errors %}
-                    <div class="invalid-feedback d-block">
-                      {{ error }}
-                    </div>
-                  {% endfor %}
-                </div>
-
-                <div class="mb-4 col-md-3">
-                  <label class="form-label">Tickets Available:</label>
-                  
-                  {{ form.tickets_available(
-                    class="form-control is-invalid" if form.tickets_available.errors else "form-control"
-                  ) }}
-                  {% for error in form.tickets_available.errors %}
-                    <div class="invalid-feedback d-block">{{ error }}</div>
-                  {% endfor %}
-                </div>
-
-                <div class="mb-4">
                   <label class="form-label">Event Image:</label>
                   
                   {{ form.event_image(

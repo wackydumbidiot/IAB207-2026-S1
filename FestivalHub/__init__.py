@@ -28,6 +28,8 @@ def create_app():
     def index():
         from .models import Event
 
+        #raise Exception("Execption 500 page")
+
         search = request.args.get("search", "")
         category = request.args.get("category", "")
         status = request.args.get("event_status", "")
@@ -189,5 +191,13 @@ def create_app():
 
     from . import auth
     app.register_blueprint(auth.auth_bp)
+
+    @app.errorhandler(404)
+    def pageNotFound(error):
+        return render_template("404_not_found.html"), 404
+        
+    @app.errorhandler(500)
+    def internalError(error):
+        return render_template("500_internal_error.html"), 500
     
     return app

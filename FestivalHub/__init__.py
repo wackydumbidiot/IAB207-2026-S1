@@ -30,6 +30,7 @@ def create_app():
 
         search = request.args.get("search", "")
         category = request.args.get("category", "")
+        status = request.args.get("event_status", "")
         query = Event.query
 
         if search:
@@ -38,9 +39,24 @@ def create_app():
         if category:
             query = query.filter(Event.category == category)
 
+        if status:
+            query = query.filter(Event.event_status == status)
+
         events = query.all()
 
-        return render_template("index.html", events=events)
+        noResultsMessage = None
+
+        if not events:
+            if search and category and status:
+                noResultsMessage = f"No results found for event '{search}' with category '{category}' and with status '{status}'."
+            elif search:
+                noResultsMessage = f"No results found for event '{search}'."
+            elif category:
+                noResultsMessage = f"No results found for category '{category}'."
+            elif status:
+                noResultsMessage = f"No results found for status '{status}'."
+
+        return render_template("index.html", events=events, noResultsMessage=noResultsMessage)
     
     @app.route("/event-created")
     def event_created():

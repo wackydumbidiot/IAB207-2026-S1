@@ -49,6 +49,10 @@ def create_app():
         if not events:
             if search and category and status:
                 noResultsMessage = f"No results found for event '{search}' with category '{category}' and with status '{status}'."
+            elif search and category:
+                noResultsMessage = f"No results found for event '{search}' with category '{category}'."
+            elif category and status:
+                noResultsMessage = f"No results found for category '{category}' with status '{status}'."
             elif search:
                 noResultsMessage = f"No results found for event '{search}'."
             elif category:

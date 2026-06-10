@@ -40,19 +40,19 @@
 
                 <select name="category" class="form-select" style="width: 165px">
                   <option selected disabled value="">Select Category</option>
-                  <option value="Rock">Rock</option>
-                  <option value="EDM">EDM</option>
-                  <option value="Jazz">Jazz</option>
-                  <option value="Pop">Pop</option>
-                  <option value="Country">Country</option>
+                  <option value="Rock" {% if request.args.get('category') == 'Rock' %} selected {% endif %}>Rock</option>
+                  <option value="EDM" {% if request.args.get('category') == 'EDM' %} selected {% endif %}>EDM</option>
+                  <option value="Jazz" {% if request.args.get('category') == 'Jazz' %} selected {% endif %}>Jazz</option>
+                  <option value="Pop" {% if request.args.get('category') == 'Pop' %} selected {% endif %}>Pop</option>
+                  <option value="Country" {% if request.args.get('category') == 'Country' %} selected {% endif %}>Country</option>
                 </select>
 
                 <select name="event_status" class="form-select" style="width: 145px">
                   <option selected disabled value="">Select Status</option>
-                  <option value="Open">Open</option>
-                  <option value="Inactive">Inactive</option>
-                  <option value="Sold Out">Sold Out</option>
-                  <option value="Cancelled">Cancelled</option>
+                  <option value="Open" {% if request.args.get('event_status') == 'Open' %} selected {% endif %}>Open</option>
+                  <option value="Inactive" {% if request.args.get('event_status') == 'Inactive' %} selected {% endif %}>Inactive</option>
+                  <option value="Sold Out" {% if request.args.get('event_status') == 'Sold Out' %} selected {% endif %}>Sold Out</option>
+                  <option value="Cancelled" {% if request.args.get('event_status') == 'Cancelled' %} selected {% endif %}>Cancelled</option>
                 </select>
 
                 <button type="submit" class="btn btn-outline-light custom-search-btn">Search</button>
@@ -80,7 +80,7 @@
         <div class="event-form">
           
 
-          <h3>Upcoming events:</h3>
+          <h3 class="mb-5">Upcoming events:</h3>
 
           <!-- Row of Festival Cards -->
           <div class="row justify-content-center row-cols-1 row-cols-md-3 g-4">
@@ -128,10 +128,12 @@
               {% endfor %}
 
             {% else %}
-              <div class="col-12 text-center">
-                <div class="alert alert-warning">
-                  No results found for "{{ request.args.get('search') }}". Want to try again?
+              <div class="col-12 col-md-6 text-center mx-auto">
+                {% if noResultsMessage %}
+                <div class="alert alert-warning py-5">
+                 {{ noResultsMessage }}
                 </div>
+                {% endif %}
               </div>
             {% endif %}
 

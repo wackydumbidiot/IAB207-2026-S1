@@ -28,8 +28,11 @@ def create_app():
     def index():
         from .models import Event
 
+        #raise Exception("Execption 500 page")
+
         search = request.args.get("search", "")
         category = request.args.get("category", "")
+        status = request.args.get("event_status", "")
         query = Event.query
 
         if search:
@@ -38,9 +41,28 @@ def create_app():
         if category:
             query = query.filter(Event.category == category)
 
+        if status:
+            query = query.filter(Event.event_status == status)
+
         events = query.all()
 
-        return render_template("index.html", events=events)
+        noResultsMessage = None
+
+        if not events:
+            if search and category and status:
+                noResultsMessage = f"No results found for event '{search}' with category '{category}' and with status '{status}'."
+            elif search and category:
+                noResultsMessage = f"No results found for event '{search}' with category '{category}'."
+            elif category and status:
+                noResultsMessage = f"No results found for category '{category}' with status '{status}'."
+            elif search:
+                noResultsMessage = f"No results found for event '{search}'."
+            elif category:
+                noResultsMessage = f"No results found for category '{category}'."
+            elif status:
+                noResultsMessage = f"No results found for status '{status}'."
+
+        return render_template("index.html", events=events, noResultsMessage=noResultsMessage)
     
     @app.route("/event-created")
     def event_created():
@@ -111,10 +133,11 @@ def create_app():
                 start_time = form.start_time.data,
                 end_time = form.end_time.data,
                 category = form.category.data,
-                event_status = form.event_status.data,
+                event_status = "Open",
                 acknowledgement_of_country = form.acknowledgement.data,
                 image = uploaded_image.filename,
                 ticket_type = form.ticket_type.data,
+                tickets_price = float(form.tickets_price.data),
                 tickets_available = form.tickets_available.data
             )
 
@@ -168,5 +191,13 @@ def create_app():
 
     from . import auth
     app.register_blueprint(auth.auth_bp)
+
+    @app.errorhandler(404)
+    def pageNotFound(error):
+        return render_template("404_not_found.html"), 404
+        
+    @app.errorhandler(500)
+    def internalError(error):
+        return render_template("500_internal_error.html"), 500
     
     return app

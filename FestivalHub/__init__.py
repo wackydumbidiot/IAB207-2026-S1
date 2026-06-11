@@ -175,11 +175,20 @@ def create_app():
 
         event = Event.query.get_or_404(event_id)
 
+        quantity = request.form.get("quantity")
+
+        if not quantity:
+            flash("Please enter a ticket quantity.")
+            return redirect(url_for("view_event_details", event_id=event.id))
+
+        quantity = int(quantity)
+
+
         generated_order_id = "ORD-" + str(random.randint(100000, 999999))
 
         order = Order(
             order_id=generated_order_id,
-            quantity=1,
+            quantity=quantity,
             user_id=current_user.id,
             event_id=event.id
     )

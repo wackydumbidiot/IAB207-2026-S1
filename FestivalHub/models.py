@@ -69,3 +69,6 @@ class Order(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+
+    event = db.relationship('Event', backref='orders')
+

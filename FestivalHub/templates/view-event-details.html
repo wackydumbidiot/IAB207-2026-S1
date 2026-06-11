@@ -147,7 +147,7 @@
           <div class="col-md-8">
             <div class="card shadow-sm">
               <div class="card-body">
-                <form action="{{ url_for('booking_confirmed') }}" method="GET">
+                <form method="POST" action="{{ url_for('book_event', event_id=event.id) }}">
                   <h2 class="card-title mb-4">Book Tickets</h2>
 
                   <div class="row g-3">
@@ -170,6 +170,7 @@
                         type="number"
                         class="form-control"
                         id="ticketQuantity"
+                        name="quantity"
                         min="1"
                         max="10"
                         placeholder="Enter ticket quantity"

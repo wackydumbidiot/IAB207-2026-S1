@@ -63,19 +63,43 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('create_festival') }}">Create Event</a>
               </li>
+              {% if current_user.is_authenticated %}
+
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('bookings') }}">View Bookings</a>
-              </li> 
+                <a class="nav-link" href="{{ url_for('bookings') }}">
+                View Bookings
+                </a>
+              </li>
+
+               <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">
+                Logout
+                </a>
+              </li>
+
+              {% else %}
+
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('auth.login') }}">
-                    Login
+                Login
                 </a>
               </li>
 
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('auth.register') }}">
-                    Register
+                Register
                 </a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- Container for the event cards -->
             </li>
             </ul>
           </div>

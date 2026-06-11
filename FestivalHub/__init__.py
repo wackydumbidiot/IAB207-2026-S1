@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required, current_user
 
+
 db = SQLAlchemy()
 
 
@@ -117,6 +118,7 @@ def create_app():
             return redirect(url_for("view_event_details", event_id=event.id))
 
     @app.route("/create-festival", methods=["GET", "POST"])
+    @login_required
     def create_festival():
         from .forms import CreateOrUpdateEventForm
         from .models import Event
@@ -166,6 +168,29 @@ def create_app():
         'view-bookings.html',
         orders=orders
         )
+    
+    @app.route("/book-event/<int:event_id>", methods=["POST"])
+    @login_required
+    def book_event(event_id):
+
+        from .models import Event, Order 
+        import random
+
+        event = Event.query.get_or_404(event_id)
+
+        generated_order_id = "ORD-" + str(random.randint(100000, 999999))
+
+        order = Order(
+        order_id=generated_order_id,
+        quantity=1,
+        user_id=current_user.id,
+        event_id=event.id
+    )
+
+        db.session.add(order)
+        db.session.commit()
+
+        return redirect(url_for("bookings"))
 
 
 

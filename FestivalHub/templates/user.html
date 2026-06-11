@@ -14,17 +14,12 @@
 <!-- Show registration link on login page -->
 {% if heading == 'Login' %}
 <div class="col-md-4">
-<<<<<<< HEAD
-    <p>New user? <a href="{{url_for('auth.register')}}">Click here</a> to register.</p>
-=======
-    <p>
-        New user?
-        <a href="{{ url_for('auth.register') }}">
+    <p>New user? 
+        <a href="{{url_for('auth.register')}}">
             Click here
-        </a>
+        </a> 
         to register.
     </p>
->>>>>>> 440d1fe (added database and user features)
 </div>
 {% endif %}
 

@@ -112,7 +112,7 @@ def create_app():
 
             flash("Your comment has been posted.", "success")
 
-            return redirect(url_for("view_event_details", event_id=event.id))
+        return redirect(url_for("view_event_details", event_id=event.id))
 
     @app.route("/create-festival", methods=["GET", "POST"])
     @login_required
@@ -193,9 +193,96 @@ def create_app():
 
  
 
+    def demo_data():
+        from .models import Event, User, Comment
+        from werkzeug.security import generate_password_hash
+        from datetime import datetime, date, time
+
+        if Event.query.count() == 0:
+            event = Event(
+                event_name="Ed Sheeran",
+                event_description="A live music event featuring Ed Sheeran with a relaxed acoustic atmosphere.",
+                category="Pop",
+                date=date(2026, 7, 20),
+                start_time=time(19, 0),
+                end_time=time(22, 0),
+                venue="Riverstage",
+                event_status="Open",
+                acknowledgement_of_country="No Acknowledgement of Country",
+                ticket_type="General Admission",
+                tickets_price="10.0",
+                tickets_available=120,
+                image="edsheeran.jpg"
+            )
+
+            db.session.add(event)
+            db.session.commit()
+
+        if User.query.count() == 0:
+            users = [
+                User(
+                    first_name="Alice",
+                    surname="Smith",
+                    email="alice@example.com",
+                    password_hash=generate_password_hash("password123"),
+                    contact_number="0400000001",
+                    street_address="1 Demo Street"
+                ),
+                User(
+                    first_name="Bob",
+                    surname="Johnson",
+                    email="bob@example.com",
+                    password_hash=generate_password_hash("password123"),
+                    contact_number="0400000002",
+                    street_address="2 Demo Street"
+                ),
+                User(
+                    first_name="Sean",
+                    surname="Dewantoro",
+                    email="sean@example.com",
+                    password_hash=generate_password_hash("password123"),
+                    contact_number="0400000003",
+                    street_address="3 Demo Street"
+                )
+            ]
+
+            db.session.add_all(users)
+            db.session.commit()
+
+        if Comment.query.count() == 0:
+            event = Event.query.first()
+            alice = User.query.filter_by(email="alice@example.com").first()
+            bob = User.query.filter_by(email="bob@example.com").first()
+            sean = User.query.filter_by(email="sean@example.com").first()
+
+            comments = [
+                Comment(
+                    comment_text="Love Ed Sheeran but also amazing lineup this year! Really excited to attend with my friends.",
+                    created_at=datetime(2026, 3, 5),
+                    event_id=event.id,
+                    user_id=alice.id
+                ),
+                Comment(
+                    comment_text="The venue looks great, and the ticket options and pricing seem pretty reasonable.",
+                    created_at=datetime(2026, 3, 7),
+                    event_id=event.id,
+                    user_id=bob.id
+                ),
+                Comment(
+                    comment_text="Such a good venue, would recommend. Good service.",
+                    created_at=datetime(2026, 3, 7),
+                    event_id=event.id,
+                    user_id=sean.id
+                )
+            ]
+
+            db.session.add_all(comments)
+            db.session.commit()
+
     with app.app_context():
         from .models import User, Event, Order
         db.create_all()
+        demo_data()
 
     from . import auth
     app.register_blueprint(auth.auth_bp)

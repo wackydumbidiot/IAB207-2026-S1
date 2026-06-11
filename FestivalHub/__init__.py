@@ -16,9 +16,6 @@ def create_app():
     db.init_app(app)
     Bootstrap5(app)
 
-    login_manager = LoginManager()
-    login_manager.login_view = "auth.login"
-    login_manager.init_app(app)
 
  # initialise the login manager
     login_manager = LoginManager()
@@ -161,7 +158,7 @@ def create_app():
         from .models import Order
 
         orders = Order.query.filter_by(
-        user_id=current_user.id
+            user_id=current_user.id
         ).all()
 
         return render_template(
@@ -181,10 +178,10 @@ def create_app():
         generated_order_id = "ORD-" + str(random.randint(100000, 999999))
 
         order = Order(
-        order_id=generated_order_id,
-        quantity=1,
-        user_id=current_user.id,
-        event_id=event.id
+            order_id=generated_order_id,
+            quantity=1,
+            user_id=current_user.id,
+            event_id=event.id
     )
 
         db.session.add(order)
@@ -194,13 +191,7 @@ def create_app():
 
 
 
-    from .models import User
-
-    @login_manager.user_loader
-    def load_user(user_id):
-        return db.session.scalar(
-            db.select(User).where(User.id == user_id)
-        )
+ 
 
     with app.app_context():
         from .models import User, Event, Order
@@ -232,8 +223,7 @@ def create_app():
 
 
 
-    from . import auth
-    app.register_blueprint(auth.auth_bp)
+
 
     @app.errorhandler(404)
     def pageNotFound(error):

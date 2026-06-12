@@ -183,6 +183,15 @@ def create_app():
 
         quantity = int(quantity)
 
+        # Prevent negative or zero tickets
+        if quantity < 1:
+            flash("Please enter at least 1 ticket.")
+            return redirect(url_for("view_event_details", event_id=event.id))
+
+        # Prevent overbooking
+        if quantity > event.tickets_available:
+            flash("Not enough tickets available.")
+            return redirect(url_for("view_event_details", event_id=event.id))
 
         generated_order_id = "ORD-" + str(random.randint(100000, 999999))
 
@@ -192,6 +201,13 @@ def create_app():
             user_id=current_user.id,
             event_id=event.id
     )
+
+        # Reduce available tickets
+        event.tickets_available -= quantity
+
+        # Mark sold out if none left
+        if event.tickets_available == 0:
+            event.event_status = "Sold Out"
 
         db.session.add(order)
         db.session.commit()

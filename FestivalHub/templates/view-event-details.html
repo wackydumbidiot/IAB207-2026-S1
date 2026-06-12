@@ -50,6 +50,16 @@
         </ol>
       </nav>
 
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-warning">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
       <div class="event-form mb-5 mt-5">
         <!-- Event details section -->
         <div class="row justify-content-center">

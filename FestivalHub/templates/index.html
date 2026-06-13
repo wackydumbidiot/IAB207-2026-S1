@@ -24,7 +24,7 @@ Music Festival Hub
             
               {% for event in events %}
               <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 event-card">
                   <img src="{{ url_for('static', filename='img/' + event.image) }}" class="card-img-top" />
                   <div class="card-body">
                     <h5 class="card-title">{{ event.event_name }}</h5>

@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-
 {{ event.event_name }} | Festival Hub
-
 {% endblock %}
 
 {% block content %}
@@ -21,8 +19,9 @@
         </ol>
       </nav>
 
+      <!-- Event details section -->
       <div class="event-form mb-5 mt-5">
-        <!-- Event details section -->
+        
         <div class="row justify-content-center">
           <div class="col-md-10">
             <div class="row mb-3">
@@ -34,15 +33,18 @@
                 />
               </div>
 
+              <!-- Event Name -->
               <div class="col-lg-6">
                 <h1 class="mb-4">{{ event.event_name }}</h1>
 
+                <!-- Event Category -->
                 <p class="mb-1">
                   <i class="bi bi-tags-fill me-2"></i>
                   <strong>Category:</strong>
                   <span class="badge text-bg-primary">{{ event.category }}</span>
                 </p>
 
+                <!-- Event Status -->
                 <p class="mb-1">
                   <i class="bi bi-check-circle-fill me-2"></i>
                   <strong>Status:</strong>
@@ -61,34 +63,40 @@
                   </span>
                 </p>
 
+                <!-- Event Venue -->
                 <p class="mb-1">
                   <i class="bi bi-geo-alt-fill me-2"></i>
                   <strong>Venue:</strong> {{ event.venue }}
                 </p>
 
+                <!-- Event Date -->
                 <p class="mb-1">
                   <i class="bi bi-calendar-event-fill me-2"></i>
                   <strong>Date:</strong> {{ event.date.strftime('%d/%m/%Y') }}
                 </p>
 
+                <!-- Event Start Time -->
                 <p class="mb-1">
                   <i class="bi bi-clock-fill me-2"></i>
                   <strong>Start Time:</strong>
                   {{ event.start_time.strftime('%I:%M %p') }}
                 </p>
 
+                <!-- Event End Time -->
                 <p class="mb-1">
                   <i class="bi bi-clock-history me-2"></i>
                   <strong>End Time:</strong>
                   {{ event.end_time.strftime('%I:%M %p') }}
                 </p>
 
+                <!-- Event available tickets -->
                 <p class="mb-1">
                   <i class="bi bi-ticket-perforated-fill me-2"></i>
                   <strong>Tickets Available:</strong>
                   {{ event.tickets_available }}
                 </p>
 
+                <!-- Event Description -->
                 <h4 class="mt-4">
                   <i class="bi bi-card-text me-2"></i>
                   Description:
@@ -96,6 +104,7 @@
 
                 <p>{{ event.event_description }}</p>
 
+                <!-- Event Acknowledgement of Country -->
                 <h4 class="mt-4">
                   <i class="bi bi-people-fill me-2"></i>
                   Acknowledgement of Country:
@@ -107,6 +116,7 @@
           </div>
         </div>
 
+        <!-- Button to update event details -->
         <div class="d-flex gap-3 mt-4 mb-5">
           <div class="me-3">
             <a href="{{ url_for('update_festival', event_id=event.id) }}" class="btn btn-warning update-btn">
@@ -114,6 +124,7 @@
             </a>
           </div>
 
+          <!-- Button to cancel event -->
           <form class="me-3 d-inline" action="{{ url_for('cancel_festival', event_id=event.id) }}" method="POST">
             <button type="submit" class="btn btn-danger update-btn">
               Cancel Event
@@ -137,6 +148,7 @@
               </iframe>
             </div>
 
+            <!-- Event Location Address -->
             <p class="text-muted mb-2">
               Brisbane Showgrounds, Queensland, Australia
             </p>
@@ -151,6 +163,7 @@
                 <form action="{{ url_for('booking_confirmed') }}" method="GET">
                   <h2 class="card-title mb-4">Book Tickets</h2>
 
+                  <!-- Ticket Types -->
                   <div class="row g-3">
                     <div class="col-md-4">
                       <label for="ticketType" class="form-label">
@@ -158,11 +171,12 @@
                       </label>
                       <select class="form-select" id="ticketType">
                         <option selected>Select Ticket Type:</option>
-                        <option>General Admission - $60</option>
-                        <option>VIP - $120</option>
+                        <option>General Admission</option>
+                        <option>VIP</option>
                       </select>
                     </div>
 
+                    <!-- Number of tickets to purchase -->
                     <div class="col-md-4">
                       <label for="ticketQuantity" class="form-label">
                         Number of Tickets:
@@ -177,6 +191,7 @@
                       />
                     </div>
 
+                    <!-- Button to book for events -->
                     <div class="mt-4 mb-2">
                       <button type="submit" class="btn btn-primary">
                         Book Now
@@ -185,6 +200,7 @@
                   </div>
                 </form>
 
+                <!-- Note for successful booking confirmaton -->
                 <div
                   class="alert alert-info mt-4 col-md-10 custom-alert"
                   role="alert"

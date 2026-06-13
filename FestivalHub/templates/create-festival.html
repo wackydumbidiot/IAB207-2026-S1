@@ -1,15 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}
-
-Create or Update Event
-
-{% endblock %}
-
 {% block content %}
-      
-      <!-- Create or Update Event Details Form-->
-      <div class="container py-5">
+
+
+
+  <!-- Create or Update Event Details Form-->
+  <div class="container py-5">
 
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -38,112 +34,15 @@ Create or Update Event
 
             {{ form.hidden_tag() }}
 
-                
-                  <div class="mb-4 col-md-5">
-                    <label class="form-label">Acknowledgement of Country:</label>
-                    
-                    {{ form.acknowledgement(
-                      class="form-select is-invalid" if form.acknowledgement.errors else "form-select"  
-                    ) }}
-                  
-                    {% for error in form.acknowledgement.errors %}   
-                      <div class="invalid-feedback d-block">
-                        {{ error }}    
-                      </div>  
-                    {% endfor %}
-
-                    <div >
-                      <div class="alert alert-info mt-3">
-                        <h5 class="alert-heading">
-                          <i class="bi bi-info-circle-fill"></i>
-                          Create a Meaningful Acknowledgement
-                        </h5>
-                        <p>
-                          An Acknowledgement of Country recognises the Traditional Custodians of the land on
-                          which your event takes place and pays respect to the Elders past and present.
-                        </p>
-
-                        <p>
-                          We encourage event creators to identify the Traditional Custodians of the land where their event
-                          will take place and adapt the acknowledgement so it reflects the local community and event context.
-                        </p>
-
-                        <p>
-                          FestivalHub provides example acknowledgements as a starting point only. Event creators are encouraged
-                          to personalise the acknowledgement to ensure its respectful, accurate and meaningful.
-                        </p>
-
-                        <hr>
-
-                        <p class="mb-0">
-                          <Strong>Tip: </Strong> A context-specific ackowledgement is more meaningful than a generic
-                          template and demonstrates cultural awareness and respect.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="mb-4 col-md-4">
-                    <label class="form-label">Ticket Type:</label>
-                    {{ form.ticket_type(
-                      class="form-select is-invalid" if form.ticket_type.errors else "form-select"
-                    ) }}
-                  
-                    {% for error in form.ticket_type.errors %}
-                      <div class="invalid-feedback d-block">
-                        {{ error }}
-                      </div>
-                    {% endfor %}
-                  </div>
-
-                  <div class="mb-4 col-md-3">
-                    <label class="form-label">Ticket Price:</label>
-                    
-                    <div class="input-group">
-                      <span class="input-group-text">$</span>
-                    {{ form.tickets_price(
-                      class="form-control is-invalid" if form.tickets_price.errors else "form-control", placeholder="0.00"
-                    ) }}
-                    </div>
-                    {% for error in form.tickets_price.errors %}
-                      <div class="invalid-feedback d-block">{{ error }}</div>
-                    {% endfor %}
-                  </div>
-
-                  <div class="mb-4 col-md-3">
-                    <label class="form-label">Tickets Available:</label>
-                    
-                    {{ form.tickets_available(
-                      class="form-control is-invalid" if form.tickets_available.errors else "form-control",
-                      placeholder="Enter available tickets.") }}
-                    {% for error in form.tickets_available.errors %}
-                      <div class="invalid-feedback d-block">{{ error }}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-
-                <div class="mb-4 col-md-7">
-                  <label class="form-label">Event Image:</label>
-                  
-                  {{ form.event_image(
-                    class="form-control is-invalid" if form.event_image.errors else "form-control"
-                  ) }}
-                
-                  {% for error in form.event_image.errors %}  
-                    <div class="invalid-feedback d-block">
-                      {{ error }}
-                    </div>
-                  {% endfor %}
-                </div>
-               
-                {% if editing %}
-                {{ form.submit(class="btn btn-primary mb-4", value="Update Event") }}
-                {% else %}
-                {{ form.submit(class="btn btn-primary mb-4", value="Create Event") }}
-                {% endif %}
-              </form>
+            <div class="mt-4 mb-4">
+              <label class="form-label">Event Name:</label>
+              {{ form.event_name(
+                class="form-control is-invalid" if form.event_name.errors else "form-control",
+                placeholder="Enter a name of the event."
+              ) }}
+              {% for error in form.event_name.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+              {% endfor %}
             </div>
 
             <div class="mt-4 mb-4">
@@ -304,11 +203,19 @@ Create or Update Event
               {% endfor %}
             </div>
 
-            {{ form.submit(class="btn btn-primary mb-4") }}
-
+            {% if editing %}
+              {{ form.submit(class="btn btn-primary mb-4", value="Update Event") }}
+            {% else %}
+              {{ form.submit(class="btn btn-primary mb-4", value="Create Event") }}
+            {% endif %}
           </form>
 
         </div>
       </div>
 
-  {% endblock %}
+    </div>
+  </div>
+
+
+
+{% endblock %}

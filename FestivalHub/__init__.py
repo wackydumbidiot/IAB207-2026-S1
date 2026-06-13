@@ -198,7 +198,7 @@ def create_app():
             print("Successfully updated Event")
             
             # Always end with Redirect when form is valid
-            return redirect(url_for("view_event_details", event_id=event_id))
+            return redirect(url_for("view_event_details", event_id=event.id))
     
         print("FORM ERRORS:", form.errors)
 

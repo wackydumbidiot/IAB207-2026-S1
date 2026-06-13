@@ -167,9 +167,9 @@
                         Ticket Type:
                       </label>
                       <select class="form-select" id="ticketType">
-                        <option selected>Select Ticket Type:</option>
-                        <option>General Admission - $60</option>
-                        <option>VIP - $120</option>
+                        <option selected>
+                          {{ event.ticket_type }} - ${{ event.tickets_price }}
+                        </option>
                       </select>
                     </div>
 

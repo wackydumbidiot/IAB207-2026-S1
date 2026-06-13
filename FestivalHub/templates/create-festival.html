@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<main class="py-5">
+
 
   <!-- Create or Update Event Details Form-->
-  <div class="container">
+  <div class="container py-5">
 
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -203,8 +203,11 @@
               {% endfor %}
             </div>
 
-            {{ form.submit(class="btn btn-primary mb-4") }}
-
+            {% if editing %}
+              {{ form.submit(class="btn btn-primary mb-4", value="Update Event") }}
+            {% else %}
+              {{ form.submit(class="btn btn-primary mb-4", value="Create Event") }}
+            {% endif %}
           </form>
 
         </div>
@@ -213,6 +216,6 @@
     </div>
   </div>
 
-</main>
+
 
 {% endblock %}

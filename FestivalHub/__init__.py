@@ -111,6 +111,7 @@ def create_app():
         return redirect(url_for("view_event_details", event_id=event.id))
 
     @app.route("/create-festival", methods=["GET", "POST"])
+    @login_required
     def create_festival():
         from .forms import CreateOrUpdateEventForm
         from .models import Event
@@ -150,16 +151,77 @@ def create_app():
     
         print("FORM ERRORS:", form.errors)
 
-        return render_template("create-festival.html", form=form)
+        return render_template("create-festival.html", form=form, editing=False)
+    # app.secret_key = 'somesecretkey'
+    # set the app configuration data 
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Festivaldata.sqlite'
+    # initialise db with flask app
+    #db.init_app(app)
+
+    @app.route("/update-festival/<int:event_id>", methods=["GET", "POST"])
+    @login_required
+    def update_festival(event_id):
+        from .forms import CreateOrUpdateEventForm
+        from .models import Event
+
+        event = Event.query.get_or_404(event_id)
+        form = CreateOrUpdateEventForm(obj=event)
+
+        if request.method == "GET":
+            form.tickets_price.data = float(event.tickets_price)
+
+        print("REQUEST METHOD:", request.method)
+        print("FORM DATA:", request.form)
+
+        if form.validate_on_submit():
+            uploaded_image = form.event_image.data
+
+            if uploaded_image:
+                uploaded_image.save("FestivalHub/static/img/" + uploaded_image.filename)
+                event.image = uploaded_image.filename
+
+            event.event_name = form.event_name.data
+            event.event_description = form.event_description.data
+            event.venue = form.venue.data
+            event.date = form.date.data
+            event.start_time = form.start_time.data
+            event.end_time = form.end_time.data
+            event.category = form.category.data
+            event.event_status = "Open"
+            event.acknowledgement_of_country = form.acknowledgement.data
+            event.image = uploaded_image.filename
+            event.ticket_type = form.ticket_type.data
+            event.tickets_price = str(form.tickets_price.data)
+            event.tickets_available = form.tickets_available.data
+
+            db.session.commit()
+            print("Successfully updated Event")
+            
+            # Always end with Redirect when form is valid
+            return redirect(url_for("view_event_details", event_id=event.id))
+    
+        print("FORM ERRORS:", form.errors)
+
+        return render_template("create-festival.html", form=form, editing=True)
+    
+    @app.route("/cancel-festival/<int:event_id>", methods=["POST"])
+    @login_required
+    def cancel_festival(event_id):
+        from .models import Event
+
+        event = Event.query.get_or_404(event_id)
+
+        event.event_status = "Cancelled"
+
+        db.session.commit()
+
+        return redirect(url_for("view_event_details", event_id=event.id))
+
     # app.secret_key = 'somesecretkey'
     # set the app configuration data 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Festivaldata.sqlite'
     # initialise db with flask app
     db.init_app(app)
-
-    
-
-
 
     from . import models
 

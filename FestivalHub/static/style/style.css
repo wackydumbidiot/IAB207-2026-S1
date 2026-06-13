@@ -23,7 +23,7 @@ body {
 
 .custom-brand {
     color: #ffb6c1;
-    font-size: 3rem;
+    font-size: 2.5rem;
     transition: color 0.2s ease-in-out;
 }
 
@@ -36,7 +36,7 @@ body {
 }
 
 .nav-link {
-    transition: color 0.2 ease-in-out;
+    transition: color 0.2s ease-in-out;
 }
 
 .custom-search-btn {
@@ -70,4 +70,40 @@ body {
 
 .custom-alert {
     font-family: 'Open Sans', sans-serif;
+}
+
+.custom-navbar .navbar-nav {
+    margin-top: 8px;
+}
+
+.update-btn {
+    margin-left: 100px;
+    padding: 12px 24px;
+}
+
+.event-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.event-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 20px rgba(235, 194, 190);
+    border: 2px solid #EBC2BE
+}
+
+.event-card img {
+    transition: 0.3s;
+}
+
+.event-card:hover img {
+    filter: brightness(1.1);
+}
+
+.event-card .btn {
+    transition: 0.5s;
+}
+
+.event-card:hover .btn {
+    transform: scale(1.05);
 }

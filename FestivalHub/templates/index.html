@@ -1,77 +1,78 @@
 {% extends "base.html" %}
 
+{% block title %}
+
+Music Festival Hub
+
+{% endblock %}
+
 {% block content %}
 
-<main>
+      <!-- Container for the event cards -->
+      <div class="container py-5">
 
-  <!-- Container for the event cards -->
-  <div class="container py-5">
+        <div class="event-form">
+          
 
-    <div class="event-form">
+          <h3 class="mb-5">Upcoming events:</h3>
 
-      <h3 class="mb-5 text-center">Upcoming events:</h3>
+          <!-- Row of Festival Cards -->
+          <div class="row justify-content-center row-cols-1 row-cols-md-3 g-4">
 
-      <div class="row justify-content-center row-cols-1 row-cols-md-3 g-4">
-
-        {% if events %}
-
-          {% for event in events %}
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{ url_for('static', filename='img/' + event.image) }}" class="card-img-top" />
-              <div class="card-body">
-                <h5 class="card-title">{{ event.event_name }}</h5>
-                <p class="card-text">
-                  {{ event.event_description }}
-                </p>
-                <p class="text-muted small mt-2">
-                  {{ event.venue }}
-                </p>
-
-                <a href="{{ url_for('view_event_details', event_id=event.id) }}" class="btn btn-primary">
-                  View Event Details
-                </a>
+            <!-- Card display events -->
+            {% if events %}
+            
+              {% for event in events %}
+              <div class="col">
+                <div class="card h-100 event-card">
+                  <img src="{{ url_for('static', filename='img/' + event.image) }}" class="card-img-top" />
+                  <div class="card-body">
+                    <h5 class="card-title">{{ event.event_name }}</h5>
+                    <p class="card-text">
+                      {{ event.event_description }}
+                    </p>
+                    <p class="text-muted small mt-2">
+                      {{ event.venue}}
+                    </p>
+                    <a href="{{ url_for('view_event_details', event_id=event.id) }}" class="btn btn-primary">
+                      View Event Details
+                    </a>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-body-secondary">
+                      <strong>Event Status: </strong>
+                      <span class="badge 
+                        {% if event.event_status  == 'Open' %}
+                          text-bg-success
+                        {% elif event.event_status  == 'Sold Out' %}
+                          text-bg-secondary
+                        {% elif event.event_status  == 'Cancelled' %}
+                          text-bg-danger
+                        {% elif event.event_status  == 'Inactive' %}
+                          text-bg-warning
+                        {% endif %}
+                        ">
+                        {{ event.event_status }}
+                      </span>
+                    </small>
+                  </div>
+                </div>
               </div>
+              
+              {% endfor %}
 
-              <div class="card-footer">
-                <small class="text-body-secondary">
-                  <strong>Event Status: </strong>
-
-                  <span class="badge 
-                    {% if event.event_status == 'Open' %}
-                      text-bg-success
-                    {% elif event.event_status == 'Sold Out' %}
-                      text-bg-secondary
-                    {% elif event.event_status == 'Cancelled' %}
-                      text-bg-danger
-                    {% elif event.event_status == 'Inactive' %}
-                      text-bg-warning
-                    {% endif %}
-                  ">
-                    {{ event.event_status }}
-                  </span>
-
-                </small>
+            {% else %}
+              <div class="col-12 col-md-6 text-center mx-auto">
+                {% if noResultsMessage %}
+                <div class="alert alert-warning py-5">
+                 {{ noResultsMessage }}
+                </div>
+                {% endif %}
               </div>
-            </div>
-          </div>
-          {% endfor %}
-
-        {% else %}
-          <div class="col-12 col-md-6 text-center mx-auto">
-            {% if noResultsMessage %}
-            <div class="alert alert-warning py-5">
-              {{ noResultsMessage }}
-            </div>
             {% endif %}
           </div>
-        {% endif %}
+
 
       </div>
-
-    </div>
-  </div>
-
-</main>
-
+    
 {% endblock %}

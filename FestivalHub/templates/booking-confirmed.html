@@ -2,7 +2,7 @@
 
 {% block title %}
 
-Booking Confirmed
+Booking Confirmed | Festival Hub
 
 {% endblock %}
 
@@ -25,7 +25,7 @@ Booking Confirmed
             <div class="col-lg-10 col-md-12">
               <div class="card p-4 shadow-sm text-center">
 
-                <!-- <div class="display-1 text-success mb-3">✓</div> -->
+                <!-- Message to display that ticket bookings are confirmed -->
                 <div class="text-center mb-4">
                   <i class="bi bi-check-circle-fill text-success display-1"></i>
                 </div>
@@ -38,6 +38,7 @@ Booking Confirmed
             
                 <div class="mt-4">
             
+                  <!-- Button to return user to homepage after successful booking -->
                   <a href="{{ url_for('index') }}" class="btn btn-primary mb-2">
                     Return to Homepage
                   </a> 

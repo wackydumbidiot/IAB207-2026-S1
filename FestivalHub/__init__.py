@@ -3,13 +3,19 @@ from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required, current_user
 
+
 db = SQLAlchemy()
 
+
 def create_app():
-  
-    app = Flask(__name__)  # this is the name of the module/package that is calling this app
+
+    app = Flask(__name__)
     app.config["SECRET_KEY"] = "mysecretkey"
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///Festivaldata.sqlite"
+
+    db.init_app(app)
+    Bootstrap5(app)
+
 
  # initialise the login manager
     login_manager = LoginManager()
@@ -23,8 +29,6 @@ def create_app():
         return db.session.get(User, int(user_id))
     
     @app.route("/")
-    # Should be set to false in a production environment
-
     def index():
         from .models import Event
 
@@ -117,15 +121,13 @@ def create_app():
         from .models import Event
 
         form = CreateOrUpdateEventForm()
-        
-
-        print("REQUEST METHOD:", request.method)
-        print("FORM DATA:", request.form)
 
         if form.validate_on_submit():
             uploaded_image = form.event_image.data
+            uploaded_image.save(
+                "FestivalHub/static/img/" + uploaded_image.filename
+            )
 
-            uploaded_image.save("FestivalHub/static/img/" + uploaded_image.filename)
             event = Event(
                 event_name = form.event_name.data,
                 event_description = form.event_description.data,
@@ -144,13 +146,77 @@ def create_app():
 
             db.session.add(event)
             db.session.commit()
-            print("Successfully created Event")
-            
-            # Always end with Redirect when form is valid
-            return redirect(url_for("event_created"))
-    
-        print("FORM ERRORS:", form.errors)
 
+            return redirect(url_for("event_created"))
+
+        return render_template("create-festival.html", form=form, editing=False)
+    
+    @app.route('/bookings')
+    @login_required
+    def bookings():
+
+        from .models import Order
+
+        orders = Order.query.filter_by(
+            user_id=current_user.id
+        ).all()
+
+        return render_template(
+        'view-bookings.html',
+        orders=orders
+        )
+    
+    @app.route("/book-event/<int:event_id>", methods=["POST"])
+    @login_required
+    def book_event(event_id):
+
+        from .models import Event, Order 
+        import random
+
+        event = Event.query.get_or_404(event_id)
+
+        quantity = request.form.get("quantity")
+
+        if not quantity:
+            flash("Please enter a ticket quantity.")
+            return redirect(url_for("view_event_details", event_id=event.id))
+
+        quantity = int(quantity)
+
+        # Prevent negative or zero tickets
+        if quantity < 1:
+            flash("Please enter at least 1 ticket.")
+            return redirect(url_for("view_event_details", event_id=event.id))
+
+        # Prevent overbooking
+        if quantity > event.tickets_available:
+            flash("Not enough tickets available.")
+            return redirect(url_for("view_event_details", event_id=event.id))
+
+        generated_order_id = "ORD-" + str(random.randint(100000, 999999))
+
+        order = Order(
+            order_id=generated_order_id,
+            quantity=quantity,
+            user_id=current_user.id,
+            event_id=event.id
+    )
+
+        # Reduce available tickets
+        event.tickets_available -= quantity
+
+        # Mark sold out if none left
+        if event.tickets_available == 0:
+            event.event_status = "Sold Out"
+
+        db.session.add(order)
+        db.session.commit()
+
+        return redirect(url_for("bookings"))
+
+
+
+ 
         return render_template("create-festival.html", form=form, editing=False)
     # app.secret_key = 'somesecretkey'
     # set the app configuration data 
@@ -221,7 +287,7 @@ def create_app():
     # set the app configuration data 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Festivaldata.sqlite'
     # initialise db with flask app
-    db.init_app(app)
+    #db.init_app(app)
 
     from . import models
 
@@ -312,10 +378,12 @@ def create_app():
             db.session.commit()
 
     with app.app_context():
+        from .models import User, Event, Order
         db.create_all()
         demo_data()
 
-    Bootstrap5(app)
+    from . import auth
+    app.register_blueprint(auth.auth_bp)
 
     # initialise the login manager
     # login_manager = LoginManager()
@@ -340,8 +408,7 @@ def create_app():
 
 
 
-    from . import auth
-    app.register_blueprint(auth.auth_bp)
+
 
     @app.errorhandler(404)
     def pageNotFound(error):

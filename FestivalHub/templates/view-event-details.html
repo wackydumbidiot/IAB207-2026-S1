@@ -1,5 +1,36 @@
 {% extends "base.html" %}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" />
+  </head>
+  
+  <body>
+    <header>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark custom-navbar bg-dark">
+        <div class="container">
+          <a class="navbar-brand custom-brand" href="{{ url_for('index') }}">Festival Hub</a>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('create_festival') }}">Create Event</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('bookings') }}">View Bookings</a>
+              
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 {% block title %}
 {{ event.event_name }} | Festival Hub
 {% endblock %}
@@ -18,6 +49,7 @@
           </li>
         </ol>
       </nav>
+
 
       <!-- Event details section -->
       <div class="event-form mb-5 mt-5">
@@ -160,7 +192,7 @@
           <div class="col-md-8">
             <div class="card shadow-sm">
               <div class="card-body">
-                <form action="{{ url_for('booking_confirmed') }}" method="GET">
+                <form method="POST" action="{{ url_for('book_event', event_id=event.id) }}">
                   <h2 class="card-title mb-4">Book Tickets</h2>
 
                   <!-- Ticket Types -->
@@ -185,6 +217,7 @@
                         type="number"
                         class="form-control"
                         id="ticketQuantity"
+                        name="quantity"
                         min="1"
                         max="10"
                         placeholder="Enter ticket quantity"
@@ -218,6 +251,7 @@
           <div class="col-md-11">
             <h2 class="mb-4 mt-5">Comments:</h2>
 
+            <!-- Displays comments in the view event details page -->
             {% if event.comments %}
               {% for comment in event.comments %}
                 <div class="card mb-3">
@@ -242,6 +276,7 @@
               </div>
             {% endif %}
 
+            <!-- Input where users can post comments to events -->
             <div class="card shadow-sm">
               <div class="card-body">
                 <h3 class="card-title mb-3">Post a Comment</h3>

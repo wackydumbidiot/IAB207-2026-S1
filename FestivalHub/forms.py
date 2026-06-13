@@ -11,7 +11,7 @@ from datetime import date
 
 # creates the login information
 class LoginForm(FlaskForm):
-    user_name=StringField("User Name", validators=[InputRequired('Enter user name'),Email("Please enter a valid email")])
+    user_name=StringField("Email", validators=[InputRequired('Enter user name'),Email("Please enter a valid email")])
     password=PasswordField("Password", validators=[InputRequired('Enter user password')])
     submit = SubmitField("Login")
 

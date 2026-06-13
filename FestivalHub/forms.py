@@ -82,7 +82,7 @@ class CreateOrUpdateEventForm(FlaskForm):
 
     event_image = FileField("Event Image:", validators=[InputRequired(message="Please upload an event image.")])
 
-    submit = SubmitField("Create Event", validators=[InputRequired()])
+    submit = SubmitField("Create Event")
 
     # creates the comment form information
 class CommentForm(FlaskForm):

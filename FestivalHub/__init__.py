@@ -287,7 +287,7 @@ def create_app():
     # set the app configuration data 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Festivaldata.sqlite'
     # initialise db with flask app
-    db.init_app(app)
+    #db.init_app(app)
 
     from . import models
 

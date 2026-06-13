@@ -50,15 +50,6 @@
         </ol>
       </nav>
 
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-warning">
-              {{ message }}
-            </div>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
 
       <!-- Event details section -->
       <div class="event-form mb-5 mt-5">
@@ -260,6 +251,7 @@
           <div class="col-md-11">
             <h2 class="mb-4 mt-5">Comments:</h2>
 
+            <!-- Displays comments in the view event details page -->
             {% if event.comments %}
               {% for comment in event.comments %}
                 <div class="card mb-3">
@@ -284,6 +276,7 @@
               </div>
             {% endif %}
 
+            <!-- Input where users can post comments to events -->
             <div class="card shadow-sm">
               <div class="card-body">
                 <h3 class="card-title mb-3">Post a Comment</h3>

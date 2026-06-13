@@ -25,4 +25,4 @@ def bookings():
 
     return render_template(
         'view-bookings.html',
-        orders=orders
+        orders=orders)
